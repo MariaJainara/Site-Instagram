@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feed - Instagram Style</title>
+  <link rel="stylesheet" href="feed.css">
+</head>
+<body>
+
+  <!-- Navegação Superior -->
+  <header class="navbar">
+    <div class="nav-container">
+      <h1 class="logo">Instagram</h1>
+      <div class="nav-actions-top">
+        <button class="nav-icon-btn">❤️</button>
+        <button class="nav-icon-btn">⚡</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="feed-container">
+
+    <!-- Stories dos Usuários -->
+    <section class="stories-container">
+      <div class="story">
+        <div class="story-ring active">
+          <img src="https://picsum.photos/60/60?random=10" alt="maria_jainara">
+        </div>
+        <span>maria_jainara</span>
+      </div>
+      <div class="story">
+        <div class="story-ring active">
+          <img src="https://picsum.photos/60/60?random=11" alt="avilla_jaylle">
+        </div>
+        <span>avilla_jaylle</span>
+      </div>
+      <div class="story">
+        <div class="story-ring active">
+          <img src="https://picsum.photos/60/60?random=12" alt="carlos_andre">
+        </div>
+        <span>carlos_andre</span>
+      </div>
+    </section>
+
+    <!-- POST 1: maria_jainara -->
+    <article class="post-card" data-post-id="1">
+      <header class="post-header">
+        <div class="user-info">
+          <div class="story-ring small active">
+            <img src="https://picsum.photos/40/40?random=10" class="avatar" alt="maria_jainara">
+          </div>
+          <div class="user-details">
+            <span class="username">maria_jainara <span class="verified-badge">✔</span></span>
+            <span class="post-time">• 2 min</span>
+          </div>
+        </div>
+        <button class="btn-options">•••</button>
+      </header>
+
+      <div class="post-image-container">
+        <img src="https://picsum.photos/600/600?random=20" alt="Publicação de maria_jainara" class="post-image">
+      </div>
+
+      <!-- Barra de Ações: Seta de Compartilhar + Bandeirinha de Salvar -->
+      <div class="post-actions">
+        <div class="actions-left">
+          <button class="btn-icon" title="Curtir">❤️</button>
+          <button class="btn-icon" title="Comentar">💬 <span class="action-count">10</span></button>
+          <button class="btn-icon" onclick="abrirModalCompartilhar(1)" title="Compartilhar">↗️</button>
+        </div>
+        <button class="btn-icon" title="Salvar">🔖</button>
+      </div>
+
+      <div class="post-details">
+        <p class="likes-info">Curtido por <strong>avilla_jaylle</strong> e <strong>outras pessoas</strong></p>
+        <p class="caption">
+          <strong>maria_jainara <span class="verified-badge">✔</span></strong> Projeto atualizado com sucesso! 🚀
+        </p>
+      </div>
+    </article>
+
+    <!-- POST 2: avilla_jaylle -->
+    <article class="post-card" data-post-id="2">
+      <header class="post-header">
+        <div class="user-info">
+          <div class="story-ring small active">
+            <img src="https://picsum.photos/40/40?random=11" class="avatar" alt="avilla_jaylle">
+          </div>
+          <div class="user-details">
+            <span class="username">avilla_jaylle <span class="verified-badge">✔</span></span>
+            <span class="post-time">• 15 min</span>
+          </div>
+        </div>
+        <button class="btn-options">•••</button>
+      </header>
+
+      <div class="post-image-container">
+        <img src="https://picsum.photos/600/600?random=21" alt="Publicação de avilla_jaylle" class="post-image">
+      </div>
+
+      <div class="post-actions">
+        <div class="actions-left">
+          <button class="btn-icon" title="Curtir">❤️</button>
+          <button class="btn-icon" title="Comentar">💬 <span class="action-count">5</span></button>
+          <button class="btn-icon" onclick="abrirModalCompartilhar(2)" title="Compartilhar">↗️</button>
+        </div>
+        <button class="btn-icon" title="Salvar">🔖</button>
+      </div>
+
+      <div class="post-details">
+        <p class="likes-info">Curtido por <strong>carlos_andre</strong> e <strong>outras pessoas</strong></p>
+        <p class="caption">
+          <strong>avilla_jaylle <span class="verified-badge">✔</span></strong> Dia de foco e novos aprendizados! 💻✨
+        </p>
+      </div>
+    </article>
+
+    <!-- POST 3: carlos_andre -->
+    <article class="post-card" data-post-id="3">
+      <header class="post-header">
+        <div class="user-info">
+          <div class="story-ring small active">
+            <img src="https://picsum.photos/40/40?random=12" class="avatar" alt="carlos_andre">
+          </div>
+          <div class="user-details">
+            <span class="username">carlos_andre</span>
+            <span class="post-time">• 1 h</span>
+          </div>
+        </div>
+        <button class="btn-options">•••</button>
+      </header>
+
+      <div class="post-image-container">
+        <img src="https://picsum.photos/600/600?random=22" alt="Publicação de carlos_andre" class="post-image">
+      </div>
+
+      <div class="post-actions">
+        <div class="actions-left">
+          <button class="btn-icon" title="Curtir">❤️</button>
+          <button class="btn-icon" title="Comentar">💬 <span class="action-count">12</span></button>
+          <button class="btn-icon" onclick="abrirModalCompartilhar(3)" title="Compartilhar">↗️</button>
+        </div>
+        <button class="btn-icon" title="Salvar">🔖</button>
+      </div>
+
+      <div class="post-details">
+        <p class="likes-info">Curtido por <strong>maria_jainara</strong> e <strong>outras pessoas</strong></p>
+        <p class="caption">
+          <strong>carlos_andre</strong> Pausa para o café e revisão de código ☕
+        </p>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- RODAPÉ DO INSTAGRAM (Barra de Navegação Inferior) -->
+  <footer class="bottom-nav">
+    <a href="feed.html" class="nav-item active" title="Página Inicial">🏠</a>
+    <a href="#" class="nav-item" title="Pesquisar">🔍</a>
+    <a href="#" class="nav-item" title="Criar Publicação">➕</a>
+    <a href="#" class="nav-item" title="Reels">🎬</a>
+    <a href="perfil.html" class="nav-item" title="Perfil">👤</a>
+  </footer>
+
+  <!-- Modal de Compartilhar -->
+  <div id="shareModal" class="modal-overlay" onclick="fecharModalFora(event)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Compartilhar publicação</h3>
+        <button class="close-btn" onclick="fecharModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <button class="share-option" onclick="copiarLinkPost()">
+          <span class="option-icon">🔗</span>
+          <span>Copiar link</span>
+        </button>
+        <button class="share-option" onclick="compartilharWhatsApp()">
+          <span class="option-icon">💬</span>
+          <span>Compartilhar via WhatsApp</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Link copiado com sucesso!</div>
+
+  <script src="feed.js"></script>
+</body>
+</html>
