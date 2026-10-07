@@ -1,82 +1,346 @@
-import { initDatabase, saveDatabase } from '../database/sqlite-init.js';
+// =============================================================
+// CONFIGURAÇÃO
+// =============================================================
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const db = await initDatabase();
-  const usuarioLogado = JSON.parse(localStorage.getItem('usuario_logado'));
+const API_BASE_URL = "https://sua-api.com/api";
+let postEmDestaque = null;
 
-  if (!usuarioLogado) {
-    window.location.href = 'index.html';
-    return;
-  }
+// =============================================================
+// INICIAR
+// =============================================================
 
-  const feedContainer = document.getElementById('feed-container');
-
-  // Buscar posts com informações do usuário e curtidas
-  const stmt = db.prepare(`
-    SELECT 
-      posts.id, posts.imagem_url, posts.legenda, posts.criado_em,
-      usuarios.id as usuario_id, usuarios.username, usuarios.foto_perfil,
-      (SELECT COUNT(*) FROM curtidas WHERE post_id = posts.id) as total_curtidas,
-      (SELECT COUNT(*) FROM curtidas WHERE post_id = posts.id AND usuario_id = ?) as curtiu
-    FROM posts
-    JOIN usuarios ON posts.usuario_id = usuarios.id
-    ORDER BY posts.id DESC
-  `);
-  stmt.bind([usuarioLogado.id]);
-
-  let html = '';
-  while (stmt.step()) {
-    const post = stmt.getAsObject();
-    html += `
-      <article class="bg-white border border-gray-300 rounded sm:rounded-md overflow-hidden">
-        <div class="flex items-center px-4 py-3 gap-3 border-b border-gray-100">
-          <img src="${post.foto_perfil || 'https://via.placeholder.com/40'}" class="w-8 h-8 rounded-full object-cover">
-          <a href="perfil.html?id=${post.usuario_id}" class="font-semibold text-sm hover:underline">${post.username}</a>
-        </div>
-        <img src="${post.imagem_url}" class="w-full max-h-[500px] object-cover">
-        <div class="p-4 space-y-2">
-          <div class="flex items-center gap-4 text-xl">
-            <button class="btn-like ${post.curtiu ? 'text-red-500' : 'text-gray-700'}" data-id="${post.id}">
-              ${post.curtiu ? '❤️' : '🤍'}
-            </button>
-            <a href="post.html?id=${post.id}" class="text-gray-700">💬</a>
-            <button class="btn-share text-gray-700" data-id="${post.id}">✈️</button>
-          </div>
-          <p class="font-semibold text-xs">${post.total_curtidas} curtidas</p>
-          <p class="text-sm"><span class="font-semibold">${post.username}</span> ${post.legenda}</p>
-          <a href="post.html?id=${post.id}" class="text-xs text-gray-400 block">Ver todos os comentários</a>
-        </div>
-      </article>
-    `;
-  }
-  stmt.free();
-
-  feedContainer.innerHTML = html || '<p class="text-center text-gray-500 text-sm mt-8">Nenhuma publicação encontrada.</p>';
-
-  // Evento Curtir
-  feedContainer.addEventListener('click', (e) => {
-    const btnLike = e.target.closest('.btn-like');
-    if (btnLike) {
-      const postId = btnLike.dataset.id;
-      const isLiked = btnLike.classList.contains('text-red-500');
-
-      if (isLiked) {
-        db.run('DELETE FROM curtidas WHERE post_id = ? AND usuario_id = ?', [postId, usuarioLogado.id]);
-      } else {
-        db.run('INSERT INTO curtidas (post_id, usuario_id) VALUES (?, ?)', [postId, usuarioLogado.id]);
-      }
-      saveDatabase();
-      window.location.reload();
-    }
-
-    // Evento Compartilhar
-    const btnShare = e.target.closest('.btn-share');
-    if (btnShare) {
-      document.getElementById('share-modal').classList.remove('hidden');
-    }
-  });
-
-  document.getElementById('close-share-modal').addEventListener('click', () => {
-    document.getElementById('share-modal').classList.add('hidden');
-  });
+document.addEventListener("DOMContentLoaded", () => {
+    carregarPostsDoBackend();
+    configurarModal();
+    configurarBotoes();
 });
+
+// =============================================================
+// CONFIGURAR BOTÕES
+// =============================================================
+
+function configurarBotoes() {
+    document.addEventListener("click", (event) => {
+        const botao = event.target.closest("[data-action]");
+
+        if (!botao) {
+            return;
+        }
+
+        const acao = botao.dataset.action;
+        const postId = botao.dataset.postId;
+
+        if (acao === "like") {
+            curtirPost(postId, botao);
+        }
+
+        if (acao === "share") {
+            abrirModalCompartilhar(postId);
+        }
+
+        if (acao === "save") {
+            salvarPost(postId, botao);
+        }
+
+        if (acao === "comment") {
+            mostrarToast("Comentários em breve 💬");
+        }
+    });
+}
+
+// =============================================================
+// CONFIGURAR MODAL
+// =============================================================
+
+function configurarModal() {
+    const closeButton = document.getElementById("close-share-modal");
+    if (closeButton) {
+        closeButton.addEventListener("click", fecharModal);
+    }
+
+    const shareModal = document.getElementById("share-modal");
+    if (shareModal) {
+        shareModal.addEventListener("click", (event) => {
+            if (event.target === shareModal) {
+                fecharModal();
+            }
+        });
+    }
+
+    const copiarButton = document.getElementById("copy-link-button");
+    if (copiarButton) {
+        copiarButton.addEventListener("click", copiarLinkPost);
+    }
+
+    const whatsappButton = document.getElementById("whatsapp-button");
+    if (whatsappButton) {
+        whatsappButton.addEventListener("click", compartilharWhatsApp);
+    }
+}
+
+// =============================================================
+// 1. CARREGAR POSTS
+// =============================================================
+
+async function carregarPostsDoBackend() {
+    const container = document.getElementById("feed-container");
+
+    if (!container) {
+        console.error("Elemento #feed-container não encontrado.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/posts`);
+
+        if (!response.ok) {
+            throw new Error("Erro ao procurar publicações.");
+        }
+
+        const posts = await response.json();
+
+        if (!Array.isArray(posts)) {
+            throw new Error("A API não retornou uma lista de posts.");
+        }
+
+        renderizarPosts(posts);
+
+    } catch (error) {
+        console.warn("Servidor offline. Usando posts de demonstração.");
+
+        const postsDemo = [
+            {
+                id: 1,
+                username: "maria_jainara",
+                verified: true,
+                tempo: "2 min",
+                avatar: "Jainara.jpeg",
+                imagem: "https://picsum.photos/800/800?random=20",
+                curtidas: 1284,
+                curtidasTexto: "avilla_jaylle e outras pessoas",
+                legenda: "Projeto atualizado com sucesso! 🚀",
+                comentariosCount: 42,
+                salvo: false,
+                curtido: false
+            },
+            {
+                id: 2,
+                username: "avilla_jaylle",
+                verified: true,
+                tempo: "5 h",
+                avatar: "Ávilla.png",
+                imagem: "https://picsum.photos/800/800?random=21",
+                curtidas: 856,
+                curtidasTexto: "carlos_andre e outras pessoas",
+                legenda: "Dia de foco e novos aprendizados! 💻✨",
+                comentariosCount: 18,
+                salvo: false,
+                curtido: false
+            },
+            {
+                id: 3,
+                username: "carlos_andre",
+                verified: false,
+                tempo: "1 d",
+                avatar: "Carlos.png",
+                imagem: "https://picsum.photos/800/800?random=22",
+                curtidas: 421,
+                curtidasTexto: "maria_jainara e outras pessoas",
+                legenda: "Pausa para o café e revisão de código ☕",
+                comentariosCount: 12,
+                salvo: false,
+                curtido: false
+            }
+        ];
+
+        renderizarPosts(postsDemo);
+    }
+}
+
+// =============================================================
+// 2. RENDERIZAR POSTS
+// =============================================================
+
+function renderizarPosts(posts) {
+    const container = document.getElementById("feed-container");
+
+    if (!container) {
+        console.error("Elemento #feed-container não encontrado.");
+        return;
+    }
+
+    const storiesContainer = container.querySelector(".stories-container");
+    container.innerHTML = "";
+    if (storiesContainer) {
+        container.appendChild(storiesContainer);
+    }
+
+    posts.forEach((post) => {
+        const postHTML = `
+            <article class="post-card" data-post-id="${post.id}">
+                <header class="post-header">
+                    <div class="user-info">
+                        <div class="story-ring small active">
+                            <img src="${post.avatar}" class="avatar" alt="${post.username}">
+                        </div>
+                        <div class="user-details">
+                            <span class="username">
+                                ${post.username}
+                                ${post.verified ? `<span class="verified-badge">✓</span>` : ""}
+                            </span>
+                            <span class="post-time">• ${post.tempo}</span>
+                        </div>
+                    </div>
+                    <button class="btn-options" type="button" title="Mais opções">•••</button>
+                </header>
+
+                <div class="post-image-container">
+                    <img src="${post.imagem}" alt="Publicação de ${post.username}" class="post-image">
+                </div>
+
+                <div class="post-actions">
+                    <div class="actions-left">
+                        <button class="btn-icon like-button ${post.curtido ? "liked" : ""}" type="button" data-action="like" data-post-id="${post.id}" title="Curtir">
+                            ${post.curtido ? "❤️" : "🤍"}
+                        </button>
+                        <button class="btn-icon" type="button" data-action="comment" data-post-id="${post.id}" title="Comentar">
+                            💬 <span class="action-count">${post.comentariosCount}</span>
+                        </button>
+                        <button class="btn-icon" type="button" data-action="share" data-post-id="${post.id}" title="Compartilhar">
+                            ↗️
+                        </button>
+                    </div>
+                    <button class="btn-icon save-button ${post.salvo ? "saved" : ""}" type="button" data-action="save" data-post-id="${post.id}" title="Salvar">
+                        🔖
+                    </button>
+                </div>
+
+                <div class="post-details">
+                    <p class="likes-info">
+                        Curtido por <strong>${post.curtidasTexto}</strong>
+                    </p>
+                    <p class="caption">
+                        <strong>
+                            ${post.username}
+                            ${post.verified ? `<span class="verified-badge">✓</span>` : ""}
+                        </strong>
+                        ${post.legenda}
+                    </p>
+                    ${
+                        post.comentariosCount > 0
+                            ? `<button class="comments-link" type="button" data-action="comment" data-post-id="${post.id}">
+                                Ver todos os ${post.comentariosCount} comentários
+                               </button>`
+                            : ""
+                    }
+                </div>
+            </article>
+        `;
+
+        container.insertAdjacentHTML("beforeend", postHTML);
+    });
+}
+
+// =============================================================
+// 3. ABRIR / FECHAR MODAL
+// =============================================================
+
+function abrirModalCompartilhar(postId) {
+    postEmDestaque = postId;
+    const modal = document.getElementById("share-modal");
+    if (modal) {
+        modal.classList.add("show");
+    }
+}
+
+function fecharModal() {
+    const modal = document.getElementById("share-modal");
+    if (modal) {
+        modal.classList.remove("show");
+    }
+    postEmDestaque = null;
+}
+
+// =============================================================
+// COPIAR LINK & WHATSAPP
+// =============================================================
+
+async function copiarLinkPost() {
+    if (!postEmDestaque) return;
+
+    const linkPost = `${window.location.origin}/post.html?id=${postEmDestaque}`;
+
+    try {
+        await navigator.clipboard.writeText(linkPost);
+        mostrarToast("Link copiado!");
+    } catch (error) {
+        mostrarToast("Não foi possível copiar o link.");
+    }
+
+    fecharModal();
+}
+
+function compartilharWhatsApp() {
+    if (!postEmDestaque) return;
+
+    const linkPost = `${window.location.origin}/post.html?id=${postEmDestaque}`;
+    const texto = encodeURIComponent(`Confira esta publicação: ${linkPost}`);
+
+    window.open(`https://api.whatsapp.com/send?text=${texto}`, "_blank");
+    fecharModal();
+}
+
+// =============================================================
+// SALVAR E CURTIR
+// =============================================================
+
+async function salvarPost(postId, button) {
+    button.classList.toggle("saved");
+
+    mostrarToast(
+        button.classList.contains("saved")
+            ? "Publicação salva! 🔖"
+            : "Publicação removida dos salvos."
+    );
+
+    try {
+        await fetch(`${API_BASE_URL}/posts/${postId}/save`, { method: "POST" });
+    } catch (error) {
+        console.log("Backend offline. Ação simulada.");
+    }
+}
+
+async function curtirPost(postId, button) {
+    const eCurtido = button.classList.toggle("liked");
+
+    // Alterna o emoji entre coração cheio (❤️) e vazio (🤍)
+    button.innerText = eCurtido ? "❤️" : "🤍";
+
+    mostrarToast(
+        eCurtido
+            ? "Você curtiu! ❤️"
+            : "Curtida removida."
+    );
+
+    try {
+        await fetch(`${API_BASE_URL}/posts/${postId}/like`, { method: "POST" });
+    } catch (error) {
+        console.log("Backend offline. Ação simulada.");
+    }
+}
+
+// =============================================================
+// TOAST
+// =============================================================
+
+function mostrarToast(mensagem) {
+    const toast = document.getElementById("toast");
+    if (!toast) return;
+
+    toast.innerText = mensagem;
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
