@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram - Perfil</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body class="bg-gray-50">
+
+  <header class="bg-white border-b border-gray-300 sticky top-0 z-10 px-4 py-3 flex items-center justify-between max-w-xl mx-auto">
+    <a href="feed.html" class="text-sm text-blue-500 font-semibold">← Feed</a>
+    <h1 id="header-username" class="font-semibold text-sm">Perfil</h1>
+    <div></div>
+  </header>
+
+  <main id="perfil-container" class="max-w-xl mx-auto mt-6 px-4">
+    <!-- Perfil renderizado via JS -->
+  </main>
+
+  <script type="module" src="./src/controllers/PerfilController.js"></script>
+</body>
+</html>
