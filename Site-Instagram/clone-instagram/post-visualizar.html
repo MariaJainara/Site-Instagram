@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post - Romantismo vs Realismo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Contentor Principal do Post */
+    .instagram-post {
+      background-color: #ffffff;
+      border: 1px solid #dbdbdb;
+      border-radius: 8px;
+      max-width: 935px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Lado Esquerdo - Imagem */
+    .post-image-container {
+      flex: 1.2;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 450px;
+    }
+
+    .post-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Lado Direito - Conteúdo e Comentários */
+    .post-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 450px;
+      background-color: #fff;
+    }
+
+    /* Cabeçalho do Perfil */
+    .post-header {
+      display: flex;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid #efefef;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-right: 12px;
+      object-fit: cover;
+      background-color: #eee;
+    }
+
+    .username {
+      font-weight: 600;
+      font-size: 14px;
+      color: #262626;
+      text-decoration: none;
+    }
+
+    /* Secção com scroll para legenda e comentários */
+    .post-body {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      max-height: 500px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* Legenda Principal */
+    .post-caption {
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #fafafa;
+    }
+
+    .caption-text {
+      color: #262626;
+      margin-top: 4px;
+    }
+
+    .hashtags {
+      color: #00376b;
+      margin-top: 6px;
+      word-wrap: break-word;
+    }
+
+    .hashtags a {
+      color: #00376b;
+      text-decoration: none;
+      margin-right: 4px;
+    }
+
+    /* Lista de Comentários */
+    .comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .comment-item {
+      display: flex;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .comment-item.reply {
+      margin-left: 36px;
+    }
+
+    .comment-content {
+      flex: 1;
+    }
+
+    .comment-text {
+      color: #262626;
+    }
+
+    .mention {
+      color: #00376b;
+      font-weight: 500;
+    }
+
+    .comment-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 11px;
+      color: #8e8e8e;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .like-btn {
+      color: #ed4956;
+      cursor: pointer;
+      font-size: 12px;
+      margin-left: 8px;
+    }
+
+    /* Rodapé com Gostos e Ações */
+    .post-footer {
+      padding: 12px 16px;
+      border-top: 1px solid #efefef;
+      background-color: #fff;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .heart-icon {
+      color: #ed4956;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .bookmark-icon {
+      color: #e0a96d;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .likes-count {
+      font-size: 13px;
+      color: #262626;
+    }
+
+    .likes-count strong {
+      font-weight: 600;
+    }
+
+    /* Adaptabilidade para ecrãs mais pequenos */
+    @media (max-width: 768px) {
+      .instagram-post {
+        flex-direction: column;
+        max-width: 400px;
+      }
+      .post-details {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="instagram-post">
+    <!-- Lado Esquerdo: Imagem -->
+    <div class="post-image-container">
+      <img src="m.assis.jfif" alt="Pintura Romantismo">
+    </div>
+
+    <!-- Lado Direito: Conteúdo e Respostas -->
+    <div class="post-details">
+      
+      <!-- Cabeçalho -->
+      <div class="post-header">
+        <img class="avatar" src="https://ui-avatars.com/api/?name=Romantismo&background=4a154b&color=fff" alt="Romantismo">
+        <a href="#" class="username">Romantismo (1836–1881)</a>
+      </div>
+
+      <!-- Corpo do Post (Legenda e Comentários) -->
+      <div class="post-body">
+        
+        <!-- Legenda Principal -->
+        <div class="post-caption">
+          <div>
+            <a href="#" class="username">Romantismo (1836–1881)</a>
+            <span class="caption-text">O encontro dos romantistas 📚💖, o encontro de lendas ✨</span>
+          </div>
+          <div class="hashtags">
+            <a href="#">#Romantismo</a>
+            <a href="#">#Álvares_de_Azevedo</a>
+            <a href="#">#Casimiro_de_Abreu</a>
+            <a href="#">#Fagundes_Varela</a>
+          </div>
+        </div>
+
+        <!-- Threads de Comentários -->
+        <div class="comments-list">
+          
+          <!-- Comentário 1: Machado de Assis -->
+          <div class="comment-item">
+            <img class="avatar" src="https://ui-avatars.com/api/?name=Machado+de+Assis&background=333&color=fff" alt="Machado de Assis">
+            <div class="comment-content">
+              <div>
+                <a href="#" class="username">Machado_de_Assis</a>
+                <span class="comment-text">Faltou eu aí nesse encontro... 👀</span>
+              </div>
+              <div class="comment-meta">
+                <span>6 d</span>
+                <span>1 curtida</span>
+                <span>Responder</span>
+              </div>
+            </div>
+            <span class="like-btn">❤️</span>
+          </div>
+
+          <!-- Resposta 1: Álvares de Azevedo -->
+          <div class="comment-item reply">
+            <img class="avatar" src="https://ui-avatars.com/api/?name=Alvares+Azevedo&background=8b5cf6&color=fff" alt="Álvares de Azevedo">
+            <div class="comment-content">
+              <div>
+                <a href="#" class="username">Álvares_de_Azevedo</a>
+                <span class="mention">@Machado_de_Assis</span>
+                <span class="comment-text">Machado... você não faz parte deste mundo idealizado 🥺</span>
+              </div>
+              <div class="comment-meta">
+                <span>1 curtida</span>
+                <span>Responder</span>
+              </div>
+            </div>
+            <span class="like-btn">❤️</span>
+          </div>
+
+          <!-- Resposta 2: Casimiro de Abreu -->
+          <div class="comment-item reply">
+            <img class="avatar" src="https://ui-avatars.com/api/?name=Casimiro+Abreu&background=10b981&color=fff" alt="Casimiro de Abreu">
+            <div class="comment-content">
+              <div>
+                <a href="#" class="username">Casimiro_de_Abreu</a>
+                <span class="mention">@Machado_de_Assis</span>
+                <span class="comment-text">Eu vivo é de saudades, não de verdades 🥹, e por falar nisso, saudades dos meus oito anos 🥺</span>
+              </div>
+              <div class="comment-meta">
+                <span>1 curtida</span>
+                <span>Responder</span>
+              </div>
+            </div>
+            <span class="like-btn">❤️</span>
+          </div>
+
+          <!-- Resposta 3: Fagundes Varela -->
+          <div class="comment-item reply">
+            <img class="avatar" src="https://ui-avatars.com/api/?name=Fagundes+Varela&background=f59e0b&color=fff" alt="Fagundes Varela">
+            <div class="comment-content">
+              <div>
+                <a
