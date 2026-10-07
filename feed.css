@@ -1,0 +1,445 @@
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #fafafa;
+  color: #262626;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* =====================================================
+   NAVEGAÇÃO (SUPERIOR E INFERIOR)
+===================================================== */
+
+.navbar {
+  background: #ffffff;
+  border-bottom: 1px solid #dbdbdb;
+  padding: 10px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-container {
+  max-width: 470px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 22px;
+  color: #262626;
+  font-family: sans-serif;
+}
+
+.nav-icon-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-top: 1px solid #dbdbdb;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  z-index: 100;
+}
+
+.nav-item {
+  text-decoration: none;
+  font-size: 20px;
+}
+
+/* =====================================================
+   FEED
+===================================================== */
+
+.feed-container {
+  width: 100%;
+  max-width: 470px;
+  margin: 10px auto 0;
+}
+
+/* =====================================================
+   STORIES
+===================================================== */
+
+.stories-container {
+  width: 100%;
+  display: flex;
+  gap: 14px;
+  padding: 10px 12px 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.stories-container::-webkit-scrollbar {
+  display: none;
+}
+
+.story {
+  min-width: 76px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.story-ring {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(
+    135deg,
+    #ffd600,
+    #ff7a00,
+    #ff0169,
+    #d300c5
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.story-ring.small {
+  width: 42px;
+  height: 42px;
+  margin-right: 10px;
+}
+
+.story-ring img,
+.avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  background: #f0f0f0;
+}
+
+.story-ring.small img,
+.story-ring.small .avatar {
+  width: 36px;
+  height: 36px;
+}
+
+.story span {
+  width: 76px;
+  margin-top: 6px;
+  color: #262626;
+  font-size: 12px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =====================================================
+   POST
+===================================================== */
+
+.post-card {
+  width: 100%;
+  margin-bottom: 20px;
+  background: #ffffff;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+}
+
+/* =====================================================
+   CABEÇALHO DO POST
+===================================================== */
+
+.post-header {
+  min-height: 56px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.user-details {
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.username {
+  font-weight: 600;
+  color: #262626;
+  font-size: 14px;
+}
+
+.post-time {
+  color: #737373;
+  font-size: 13px;
+  margin-left: 4px;
+}
+
+.verified-badge {
+  color: #0095f6;
+  font-size: 12px;
+  margin-left: 2px;
+}
+
+.btn-options {
+  border: none;
+  background: transparent;
+  color: #262626;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* =====================================================
+   IMAGEM
+===================================================== */
+
+.post-image-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #efefef;
+  overflow: hidden;
+}
+
+.post-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* =====================================================
+   AÇÕES DO POST
+===================================================== */
+
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+}
+
+.actions-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-icon {
+  border: none;
+  background: transparent;
+  color: #262626;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.15s ease;
+}
+
+.btn-icon:hover {
+  opacity: 0.7;
+}
+
+.like-button.liked {
+  animation: heartPulse 0.3s ease;
+}
+
+@keyframes heartPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.action-count {
+  font-size: 14px;
+  color: #262626;
+}
+
+/* =====================================================
+   DETALHES DO POST
+===================================================== */
+
+.post-details {
+  padding: 0 12px 12px;
+}
+
+.likes-info {
+  margin-bottom: 6px;
+  color: #262626;
+  font-size: 14px;
+}
+
+.caption {
+  font-size: 14px;
+  line-height: 18px;
+  color: #262626;
+}
+
+.comments-link {
+  display: block;
+  margin-top: 6px;
+  border: none;
+  background: transparent;
+  color: #737373;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 380px;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.modal-header h3 {
+  font-size: 16px;
+  color: #262626;
+}
+
+.close-btn {
+  border: none;
+  background: transparent;
+  color: #262626;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 8px;
+}
+
+.share-option {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #262626;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.share-option:hover {
+  background: #f5f5f5;
+}
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 60px;
+  z-index: 2000;
+  transform: translate(-50%, 20px);
+  background: #262626;
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* =====================================================
+   RESPONSIVIDADE (MOBILE)
+===================================================== */
+
+@media (max-width: 500px) {
+  .feed-container {
+    max-width: 100%;
+    margin-top: 0;
+  }
+
+  .stories-container,
+  .post-card {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+}
