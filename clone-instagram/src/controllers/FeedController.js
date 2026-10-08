@@ -115,10 +115,10 @@ async function carregarPostsDoBackend() {
                 verified: true,
                 tempo: "2 min",
                 avatar: "Jainara.jpeg",
-                imagem: "https://picsum.photos/800/800?random=20",
+                imagem: "sobremesa.jfif",
                 curtidas: 1284,
                 curtidasTexto: "avilla_jaylle e outras pessoas",
-                legenda: "Projeto atualizado com sucesso! 🚀",
+                legenda: "Adoçando o dia! 🍰✨",
                 comentariosCount: 42,
                 salvo: false,
                 curtido: false
@@ -129,10 +129,10 @@ async function carregarPostsDoBackend() {
                 verified: true,
                 tempo: "5 h",
                 avatar: "Ávilla.png",
-                imagem: "https://picsum.photos/800/800?random=21",
+                imagem: "praia.jfif",
                 curtidas: 856,
                 curtidasTexto: "carlos_andre e outras pessoas",
-                legenda: "Dia de foco e novos aprendizados! 💻✨",
+                legenda: "Pé na areia e mente leve. 🌊☀️",
                 comentariosCount: 18,
                 salvo: false,
                 curtido: false
@@ -143,10 +143,10 @@ async function carregarPostsDoBackend() {
                 verified: false,
                 tempo: "1 d",
                 avatar: "Carlos.png",
-                imagem: "https://picsum.photos/800/800?random=22",
+                imagem: "violao.jpg",
                 curtidas: 421,
                 curtidasTexto: "maria_jainara e outras pessoas",
-                legenda: "Pausa para o café e revisão de código ☕",
+                legenda: "Apenas bons acordes para hoje. 🎸🎶",
                 comentariosCount: 12,
                 salvo: false,
                 curtido: false
@@ -201,17 +201,27 @@ function renderizarPosts(posts) {
                 <div class="post-actions">
                     <div class="actions-left">
                         <button class="btn-icon like-button ${post.curtido ? "liked" : ""}" type="button" data-action="like" data-post-id="${post.id}" title="Curtir">
-                            ${post.curtido ? "❤️" : "🤍"}
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                              <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.074 2.5 12.168 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.118-1.763a4.17 4.17 0 0 1 3.671-1.941" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                            </svg>
                         </button>
                         <button class="btn-icon" type="button" data-action="comment" data-post-id="${post.id}" title="Comentar">
-                            💬 <span class="action-count">${post.comentariosCount}</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                              <path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615l4.01 1.085z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path>
+                            </svg>
+                            <span class="action-count">${post.comentariosCount}</span>
                         </button>
                         <button class="btn-icon" type="button" data-action="share" data-post-id="${post.id}" title="Compartilhar">
-                            ↗️
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                              <line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="2" y2="10.083"></line>
+                              <polygon fill="none" points="11.698 20.334 22 2 0.001 8.665 7.086 12.426 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon>
+                            </svg>
                         </button>
                     </div>
                     <button class="btn-icon save-button ${post.salvo ? "saved" : ""}" type="button" data-action="save" data-post-id="${post.id}" title="Salvar">
-                        🔖
+                        <svg width="24" height="24" viewBox="0 0 24 24">
+                          <polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon>
+                        </svg>
                     </button>
                 </div>
 
@@ -295,11 +305,11 @@ function compartilharWhatsApp() {
 // =============================================================
 
 async function salvarPost(postId, button) {
-    button.classList.toggle("saved");
+    const eSalvo = button.classList.toggle("saved");
 
     mostrarToast(
-        button.classList.contains("saved")
-            ? "Publicação salva! 🔖"
+        eSalvo
+            ? "Publicação salva!"
             : "Publicação removida dos salvos."
     );
 
