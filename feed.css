@@ -52,12 +52,25 @@ body {
   font-family: sans-serif;
 }
 
+.nav-actions-top {
+  display: flex;
+  align-items: center;
+}
+
 .nav-icon-btn {
   background: transparent;
   border: none;
-  font-size: 20px;
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #262626;
+  padding: 0;
+}
+
+.nav-icon-btn:hover {
+  opacity: 0.6;
 }
 
 .bottom-nav {
@@ -69,13 +82,17 @@ body {
   border-top: 1px solid #dbdbdb;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   padding: 10px 0;
   z-index: 100;
 }
 
 .nav-item {
+  color: #262626;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
-  font-size: 20px;
 }
 
 /* =====================================================
@@ -264,7 +281,7 @@ body {
 .actions-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .btn-icon {
@@ -272,10 +289,10 @@ body {
   background: transparent;
   color: #262626;
   cursor: pointer;
-  font-size: 20px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  padding: 0;
   transition: transform 0.15s ease;
 }
 
@@ -283,8 +300,16 @@ body {
   opacity: 0.7;
 }
 
-.like-button.liked {
+/* Efeito de Curtida (Coração Preenchido Vermelho) */
+.like-button.liked svg {
+  fill: #ed4956;
+  stroke: #ed4956;
   animation: heartPulse 0.3s ease;
+}
+
+/* Efeito de Salvo (Marcador Preenchido) */
+.save-button.saved svg polygon {
+  fill: #262626;
 }
 
 @keyframes heartPulse {
@@ -296,6 +321,7 @@ body {
 .action-count {
   font-size: 14px;
   color: #262626;
+  font-weight: 600;
 }
 
 /* =====================================================
